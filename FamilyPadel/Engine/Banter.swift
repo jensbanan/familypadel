@@ -298,7 +298,7 @@ enum Banter {
                 "{n} scorer, men er bagud. Han skylder på en bug i banen. 🐛",
                 "Point til {n}! Har du prøvet at slukke og tænde dig selv igen?",
                 "{n} reducerer. Klassisk venstrehånds-noob-comeback. Statistisk usandsynligt.",
-                "Stack overflow i {n}s baghånd – men point blev det da. 💥",
+                "Stack overflow i {n}' baghånd – men point blev det da. 💥",
                 "{n} kæmper. 404: Forhånd not found. Point alligevel! 👨‍💻",
                 "{n} scorer bagudfra. Det er den bedste feature han har shippet i dag."
             ]
