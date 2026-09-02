@@ -51,8 +51,10 @@ extension Persona {
         case .maria:    return Color(hex: 0xFF8FB1)
         case .thomas:   return Color(hex: 0xFF6B5B)
         case .majbritt: return Color(hex: 0xC8F560)
+        case .therese:  return Color(hex: 0xFF7A45)
         case .jens:     return Color(hex: 0x8E7BFF)
         case .casper:   return Color(hex: 0x4FE0C1)
+        case .lykke:    return Color(hex: 0xFFD166)
         case .gaest:    return Color(hex: 0x9FBFC8)
         }
     }

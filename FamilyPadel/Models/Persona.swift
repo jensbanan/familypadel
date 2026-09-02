@@ -7,11 +7,13 @@ enum Persona: String, Codable, CaseIterable, Hashable {
     case maria
     case thomas
     case majbritt
+    case therese
     case jens
     case casper
+    case lykke
     case gaest
 
-    /// Genkender familiemedlemmer ud fra navnet. Alle andre bliver "gæst".
+    /// Genkender familiemedlemmer ud fra navnet. Alle andre bliver gæster.
     static func detect(from name: String) -> Persona {
         let normalized = name
             .folding(options: .diacriticInsensitive, locale: Locale(identifier: "da_DK"))
@@ -30,8 +32,10 @@ enum Persona: String, Codable, CaseIterable, Hashable {
         case .maria:    return "🌸"
         case .thomas:   return "😤"
         case .majbritt: return "🎯"
+        case .therese:  return "🔥"
         case .jens:     return "👨‍💻"
         case .casper:   return "😇"
+        case .lykke:    return "🍀"
         case .gaest:    return "🎾"
         }
     }
@@ -43,9 +47,20 @@ enum Persona: String, Codable, CaseIterable, Hashable {
         case .maria:    return "Familiens solstråle. Skal have ros hvert 30. sekund."
         case .thomas:   return "Bedst. Altid. Irriterende."
         case .majbritt: return "\"Jeg er ellers ikke så god...\" (hun er bedst)"
+        case .therese:  return "Søsteropgør med Maria siden tennisbanen. Temperament og elendig taber."
         case .jens:     return "Koder bedre, end han spiller. Venstrehånds-noob."
         case .casper:   return "For god. For sød. Begge dele er urimeligt."
+        case .lykke:    return "Familiens nyeste. Børnene elsker hende – og hun lærer for hver bold."
         case .gaest:    return "Gæstespiller med point at bevise."
+        }
+    }
+
+    /// Hvem er man i familien på kant med? Bruges til ekstra stikpiller.
+    var rival: Persona? {
+        switch self {
+        case .therese: return .maria
+        case .maria:   return .therese
+        default:       return nil
         }
     }
 }

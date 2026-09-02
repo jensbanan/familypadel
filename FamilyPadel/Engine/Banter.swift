@@ -40,8 +40,10 @@ enum Banter {
         case .maria:    return maria(situation)
         case .thomas:   return thomas(situation)
         case .majbritt: return majbritt(situation)
+        case .therese:  return therese(situation)
         case .jens:     return jens(situation)
         case .casper:   return casper(situation)
+        case .lykke:    return lykke(situation)
         case .gaest:    return gaest(situation)
         }
     }
@@ -274,6 +276,99 @@ enum Banter {
         }
     }
 
+
+    /// Ekstra stikpille når to rivaler står over for hinanden på banen.
+    /// Returnerer `nil` hvis der ikke er noget opgør at tale om.
+    static func rivalLine(for scorer: Player, opponents: [Player]) -> BanterLine? {
+        guard let rivalPersona = scorer.persona.rival,
+              opponents.contains(where: { $0.persona == rivalPersona }),
+              let raw = rivalPool(scorer.persona).randomElement()
+        else { return nil }
+
+        let text = raw.replacingOccurrences(of: "{n}", with: scorer.shortName)
+        return BanterLine(text: text, persona: scorer.persona, emoji: scorer.emoji)
+    }
+
+    private static func rivalPool(_ persona: Persona) -> [String] {
+        switch persona {
+        case .therese:
+            return [
+                "{n} scorer mod Maria! Tennisbanen fra dengang husker alt. 🎾🔥",
+                "{n} tager point fra sin søster. Regnskabet fra ungdomsårene er stadig åbent.",
+                "Søsteropgøret! {n} fører duellen mod Maria lige nu. 🔥",
+                "{n} mod Maria – og {n} vandt den dyst. Der bliver talt om det til jul.",
+                "{n} kigger IKKE på Maria efter det point. Det gør hun bestemt ikke. 🔥"
+            ]
+        case .maria:
+            return [
+                "{n} tager point fra Therese! Søsteropgøret lever i bedste velgående. 🌸",
+                "{n} scorer mod Therese – og smiler venligt. Det gør det kun værre. 💛",
+                "{n} mod Therese! Tennisbanerne fra ungdommen ringer og vil have deres rivalisering tilbage. 🎾",
+                "Point til {n} i søsterduellen. Hun siger ingenting. Hun behøver ingenting sige. 🌸"
+            ]
+        default:
+            return []
+        }
+    }
+
+    // MARK: Therese – temperament og verdens dårligste taber
+
+    private static func therese(_ situation: BanterSituation) -> [String] {
+        switch situation {
+        case .matchStart:
+            return [
+                "{n} går på banen. Ketsjeren har allerede fortrudt. 🔥",
+                "{n} er klar. Alle husker sidste gang hun tabte. Især gulvet.",
+                "{n} varmer op, og temperamentet er varmet op længe før hende."
+            ]
+        case .scoredWhileAhead:
+            return [
+                "{n} scorer og fører! Der er fred i huset. Indtil videre. 🔥",
+                "Point til {n}! Se, hun er jo rigtig sød, når hun vinder.",
+                "{n} i front. Ketsjeren overlever endnu en dag. 🔥",
+                "{n} smadrer den i hjørnet. Med overskud, ikke med vrede. Denne gang.",
+                "{n} fører – og humøret følger pænt med. Nyd det, alle sammen.",
+                "Point til {n}. Hun kigger triumferende rundt på hele familien."
+            ]
+        case .scoredWhileBehind:
+            return [
+                "{n} scorer, men er bagud. Ketsjeren skal nok få skylden. 🔥",
+                "Point til {n}! Vi tæller stille og roligt ned til det første råb.",
+                "{n} reducerer. Pulsen er høj. Meget høj.",
+                "{n} er bagud og kiggede lige vredt på nettet. Nettet gjorde ingenting.",
+                "{n} kæmper. Nogen bør gemme ketsjeren efter kampen. 🔥",
+                "Point til {n}. Hun er ikke sur. Hun er \"fokuseret\"."
+            ]
+        case .scoredLevel:
+            return [
+                "{n} udligner! Krisen er afværget. Foreløbig. 🔥",
+                "Lige nu – {n} trak lige vejret dybt. Det var tiltrængt."
+            ]
+        case .wonMatch:
+            return [
+                "{n} VANDT! Hele familien ånder lettet op. 🔥",
+                "Sejr til {n}. Hun siger, hun aldrig var i tvivl. Det var vi andre."
+            ]
+        case .lostMatch:
+            return [
+                "{n} tabte. Det var banen. Og lyset. Og vinden. Og makkeren. 🔥",
+                "Nederlag til {n}. Ingen siger noget. Ingen kigger på hende. Sikkerhedsprotokol.",
+                "{n} tabte – og verdens dårligste taber har allerede talt. Højt.",
+                "{n} er ude. Ketsjeren skal nok komme til at mærke det."
+            ]
+        case .champion:
+            return [
+                "{n} ER MESTER! Og hun vil MEGET gerne tale om det. Hele aftenen. 🔥🏆",
+                "{n} vinder det hele! Ketsjeren er reddet, og freden er sikret til næste gang. 🏆"
+            ]
+        case .lastPlace:
+            return [
+                "{n} sidst. Vi flytter os alle sammen stille og roligt tre meter tilbage. 🔥",
+                "{n} i bunden. Ingen kommenterer det. Ingen. Kommenterer. Det."
+            ]
+        }
+    }
+
     // MARK: Jens – bedre til at kode appen end til at spille padel
 
     private static func jens(_ situation: BanterSituation) -> [String] {
@@ -382,6 +477,61 @@ enum Banter {
             return [
                 "{n} sidst? Han er nok med vilje gået ned for at andre kunne få succes. 😇",
                 "{n} i bunden af tavlen og toppen af familiens hjerter."
+            ]
+        }
+    }
+
+    // MARK: Lykke – familiens nyeste, sødeste og mest lovende
+
+    private static func lykke(_ situation: BanterSituation) -> [String] {
+        switch situation {
+        case .matchStart:
+            return [
+                "{n} går på banen! Hun er ny, hun er sød, og hun lærer hurtigere, end I bryder jer om. 🍀",
+                "{n} er klar. Om et år er det hende, der giver jer bank.",
+                "{n} på banen – børnenes ubetingede favorit. 🍀"
+            ]
+        case .scoredWhileAhead:
+            return [
+                "{n} scorer OG fører! Hun har spillet padel i fem måneder. Fem. 🍀",
+                "Point til {n}! Hun undskylder for at være ny. Det er ikke nødvendigt længere.",
+                "{n} i front. Potentialet er faktisk lidt skræmmende. 🍀",
+                "{n} rammer et slag, hun ikke kunne i sidste uge. Sådan går det hele tiden.",
+                "Point til {n}! Børnene ville have heppet vildt lige nu. 🍀",
+                "{n} fører – og er stadig den sødeste på banen."
+            ]
+        case .scoredWhileBehind:
+            return [
+                "{n} scorer bagudfra! Hun lærer noget nyt af hver eneste bold. 🍀",
+                "Point til {n}! Det her bliver hun rigtig god til. Meget snart.",
+                "{n} kæmper videre med et smil. Det er derfor børnene elsker hende. 🍀",
+                "{n} reducerer. Hun spurgte lige pænt, hvordan man gjorde. Så gjorde hun det.",
+                "Point til {n}! Ingen i familien har lært så meget på så kort tid."
+            ]
+        case .scoredLevel:
+            return [
+                "{n} udligner! Hun bliver bedre midt i kampen. Det er ikke normalt. 🍀",
+                "Lige nu takket være {n}. Hun ser overrasket ud. Det gør vi andre ikke."
+            ]
+        case .wonMatch:
+            return [
+                "{n} VANDT! Den nyeste i familien slår de gamle. Sådan. 🍀",
+                "Sejr til {n}! Og hun takkede alle fire på banen bagefter."
+            ]
+        case .lostMatch:
+            return [
+                "{n} tabte – og lærte tre nye ting undervejs. Farligt. 🍀",
+                "Nederlag til {n}. Hun spurgte straks, hvad hun kunne gøre bedre. Uhyggeligt."
+            ]
+        case .champion:
+            return [
+                "{n} ER MESTER! Den nyeste i familien tog det hele. Vi advarede jer. 🍀🏆",
+                "{n} vinder det hele – og hun er stadig den sødeste i hallen. 🏆"
+            ]
+        case .lastPlace:
+            return [
+                "{n} sidst – i år. Skriv det ned, det holder ikke næste gang. 🍀",
+                "{n} i bunden. Om et år griner vi ad den her placering."
             ]
         }
     }

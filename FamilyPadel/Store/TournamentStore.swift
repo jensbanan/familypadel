@@ -37,29 +37,58 @@ final class TournamentStore: ObservableObject {
         try? data.write(to: saveURL, options: .atomic)
     }
 
-    // MARK: - Spillere
+    // MARK: - Spillere og fremmøde
 
-    func addPlayer(named name: String) {
+    /// Tilføjer en gæst til stammen og sætter vedkommende på som fremmødt.
+    func addGuest(named name: String) {
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
-        guard !tournament.players.contains(where: { $0.name.caseInsensitiveCompare(trimmed) == .orderedSame }) else { return }
-        tournament.players.append(Player(name: trimmed))
+        guard !tournament.roster.contains(where: { $0.name.caseInsensitiveCompare(trimmed) == .orderedSame }) else { return }
+        let guest = Player(name: trimmed, isGuest: true)
+        tournament.roster.append(guest)
+        tournament.presentIDs.append(guest.id)
         clampSettings()
     }
 
-    func removePlayer(_ player: Player) {
-        guard !tournament.hasStarted else { return }
-        tournament.players.removeAll { $0.id == player.id }
+    /// Fjerner en gæst helt. Familien bliver – dem markerer man bare som fraværende.
+    func removeGuest(_ player: Player) {
+        guard player.isGuest else { return }
+        guard !tournament.matches.contains(where: { $0.contains(player.id) }) else { return }
+        tournament.roster.removeAll { $0.id == player.id }
+        tournament.presentIDs.removeAll { $0 == player.id }
         clampSettings()
     }
 
-    func movePlayers(from source: IndexSet, to destination: Int) {
-        tournament.players.move(fromOffsets: source, toOffset: destination)
+    func isPresent(_ player: Player) -> Bool {
+        tournament.presentIDs.contains(player.id)
+    }
+
+    /// Slår fremmøde til og fra. Man kan ikke melde nogen fra, der allerede har spillet.
+    func togglePresence(_ player: Player) {
+        if isPresent(player) {
+            guard !tournament.matches.contains(where: { $0.contains(player.id) }) else { return }
+            tournament.presentIDs.removeAll { $0 == player.id }
+        } else {
+            tournament.presentIDs.append(player.id)
+        }
+        clampSettings()
+    }
+
+    func setAllPresent(_ present: Bool) {
+        if present {
+            tournament.presentIDs = tournament.roster.map(\.id)
+        } else {
+            let alreadyPlaying = Set(tournament.matches.flatMap(\.allPlayerIDs))
+            tournament.presentIDs = tournament.presentIDs.filter { alreadyPlaying.contains($0) }
+        }
+        clampSettings()
     }
 
     func restoreFamily() {
         guard !tournament.hasStarted else { return }
-        tournament.players = Player.familien
+        let family = Player.familien
+        tournament.roster = family
+        tournament.presentIDs = family.map(\.id)
         clampSettings()
     }
 
@@ -197,12 +226,16 @@ final class TournamentStore: ObservableObject {
             situation = .scoredLevel
         }
 
-        pushLine(Banter.line(for: scorer, situation))
+        let opponents = tournament.players(match.ids(for: scoringTeam.other))
+        if let rival = Banter.rivalLine(for: scorer, opponents: opponents), Int.random(in: 0..<10) < 4 {
+            pushLine(rival)
+        } else {
+            pushLine(Banter.line(for: scorer, situation))
+        }
 
         // En gang imellem får en af de andre på banen også en kommentar med.
         if Int.random(in: 0..<4) == 0 {
-            let others = tournament.players(match.ids(for: scoringTeam.other))
-            if let victim = others.randomElement() {
+            if let victim = opponents.randomElement() {
                 pushLine(Banter.line(for: victim, .scoredWhileBehind))
             }
         }
@@ -362,9 +395,9 @@ final class TournamentStore: ObservableObject {
     // MARK: - Nulstilling
 
     func resetTournament() {
-        let players = tournament.players
         var fresh = Tournament()
-        fresh.players = players
+        fresh.roster = tournament.roster
+        fresh.presentIDs = tournament.presentIDs
         fresh.pointsPerMatch = tournament.pointsPerMatch
         fresh.courts = tournament.courts
         fresh.rounds = tournament.rounds

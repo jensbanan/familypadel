@@ -11,6 +11,7 @@ struct SettingsView: View {
             ScrollView {
                 VStack(spacing: 18) {
                     rulesCard
+                    presenceCard
                     playersCard
                     whoIsWhoCard
                     dangerCard
@@ -102,9 +103,60 @@ struct SettingsView: View {
         }
     }
 
+    private var presenceCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Label("Fremmøde", systemImage: "person.crop.circle.badge.checkmark")
+                    .font(.headline)
+                    .foregroundStyle(Theme.ink)
+                Spacer()
+                Text("\(store.tournament.players.count) med")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(Theme.lime)
+            }
+
+            ForEach(store.tournament.roster) { player in
+                let present = store.isPresent(player)
+                let locked = store.tournament.matches.contains { $0.contains(player.id) }
+                Button {
+                    Haptics.tap()
+                    withAnimation { store.togglePresence(player) }
+                } label: {
+                    HStack(spacing: 11) {
+                        Text(player.emoji)
+                            .font(.system(size: 19))
+                            .frame(width: 34, height: 34)
+                            .background(Circle().fill(present ? player.persona.accent.opacity(0.26) : Color.white.opacity(0.06)))
+                        Text(player.name)
+                            .font(.system(size: 15, weight: .semibold, design: .rounded))
+                            .foregroundStyle(present ? Theme.ink : Theme.inkSoft)
+                        Spacer()
+                        if locked && present {
+                            Text("har spillet")
+                                .font(.system(size: 10, weight: .semibold, design: .rounded))
+                                .foregroundStyle(Theme.inkSoft)
+                        }
+                        Image(systemName: present ? "checkmark.circle.fill" : "circle")
+                            .font(.system(size: 18))
+                            .foregroundStyle(present ? Theme.lime : Theme.inkSoft)
+                    }
+                }
+                .buttonStyle(.plain)
+                .opacity(locked && present ? 0.7 : 1)
+            }
+
+            Text("Melder du nogen til undervejs, kommer de med, når du lægger programmet om.")
+                .font(.caption)
+                .foregroundStyle(Theme.inkSoft)
+        }
+        .padding(18)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .cardStyle()
+    }
+
     private var playersCard: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Label("Tilføj en spiller", systemImage: "person.badge.plus")
+            Label("Tilføj en gæst", systemImage: "person.badge.plus")
                 .font(.headline)
                 .foregroundStyle(Theme.ink)
 
@@ -113,13 +165,13 @@ struct SettingsView: View {
                     .textInputAutocapitalization(.words)
                     .autocorrectionDisabled()
                     .submitLabel(.done)
-                    .onSubmit(addPlayer)
+                    .onSubmit(addGuest)
                     .padding(.horizontal, 14)
                     .padding(.vertical, 11)
                     .background(RoundedRectangle(cornerRadius: 14, style: .continuous).fill(Theme.courtDeep.opacity(0.6)))
                     .foregroundStyle(Theme.ink)
 
-                Button(action: addPlayer) {
+                Button(action: addGuest) {
                     Image(systemName: "plus")
                         .font(.headline)
                         .foregroundStyle(Theme.courtDeep)
@@ -130,7 +182,7 @@ struct SettingsView: View {
                 .opacity(newPlayerName.trimmingCharacters(in: .whitespaces).isEmpty ? 0.4 : 1)
             }
 
-            Text("En sen tilføjelse kommer med i resten af programmet, når du lægger det om. Spillere kan ikke fjernes midt i en turnering – det ville være for nemt at slippe for en sidsteplads.")
+            Text("En sen tilføjelse kommer med i resten af programmet, når du lægger det om. Spillere der allerede har spillet, kan ikke meldes fra – det ville være for nemt at slippe for en sidsteplads.")
                 .font(.caption)
                 .foregroundStyle(Theme.inkSoft)
         }
@@ -145,7 +197,7 @@ struct SettingsView: View {
                 .font(.headline)
                 .foregroundStyle(Theme.ink)
 
-            ForEach(store.tournament.players) { player in
+            ForEach(store.tournament.roster) { player in
                 HStack(alignment: .top, spacing: 12) {
                     Text(player.emoji)
                         .font(.system(size: 20))
@@ -197,8 +249,8 @@ struct SettingsView: View {
         .cardStyle()
     }
 
-    private func addPlayer() {
-        store.addPlayer(named: newPlayerName)
+    private func addGuest() {
+        store.addGuest(named: newPlayerName)
         newPlayerName = ""
     }
 }
