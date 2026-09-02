@@ -1,0 +1,19 @@
+{
+  "name": "Familien Vestergaard Padel Championship",
+  "short_name": "Vestergaard Padel",
+  "description": "Americano padelturnering til familien, med kommentatorboks der ikke skåner nogen.",
+  "lang": "da",
+  "dir": "ltr",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#07222B",
+  "theme_color": "#07222B",
+  "categories": ["sports", "games", "utilities"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

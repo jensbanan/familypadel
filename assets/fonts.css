@@ -1,0 +1,15 @@
+/* Variable fonte fra Google Fonts (OFL), selvhostet så appen også virker offline. */
+@font-face{
+  font-family:'Familjen Grotesk';
+  font-style:normal;
+  font-weight:400 700;
+  font-display:swap;
+  src:url('../fonts/FamiljenGrotesk.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Karla';
+  font-style:normal;
+  font-weight:300 700;
+  font-display:swap;
+  src:url('../fonts/Karla.woff2') format('woff2');
+}
