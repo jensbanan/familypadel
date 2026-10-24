@@ -1011,7 +1011,7 @@ document.addEventListener('keydown', e => {
 })();
 
 /* ============ Service worker ============ */
-if('serviceWorker' in navigator){
+if('serviceWorker' in navigator && !window.__NO_SW__){
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').catch(() => {});
   });
