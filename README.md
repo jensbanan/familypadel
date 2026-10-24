@@ -1,110 +1,141 @@
-# 🎾 Familien Vestergaard Padel Championship
+# ☀️ Marias Fødselsdagsturnering
 
-En Americano padel-app til iOS, bygget i SwiftUI. Helt på dansk, til alle otte
-i familien, og med en kommentatorboks der ikke skåner nogen. Undtagen Maria.
+**Hele familiens solstråle.** En Americano padelturnering til Marias fødselsdag.
+Kører som hjemmeside i browseren og kan lægges på hjemmeskærmen som en app.
+Fødselsdag, fest og positiv energi – og en kommentatorboks der stadig ikke
+skåner nogen.
 
 <p align="center">
-  <img src="FamilyPadel/Assets.xcassets/AppIcon.appiconset/AppIcon.png" width="160" alt="App-ikon">
+  <img src="icons/icon-512.png" width="150" alt="App-ikon">
 </p>
 
-## Hvad er Americano?
+## Alle spiller præcis lige mange kampe
 
-Alle spiller med alle og mod alle. Man skifter makker hver runde, og point
-følger **spilleren** – ikke holdet. En kamp slutter, når de to holds point
-tilsammen når målet. Til sidst står der én tilbage med flest point, og resten
-skal høre for det til jul.
+Det er hele pointen med Americano: point følger **spilleren**, ikke holdet. Men
+så skal alle også have spillet lige mange kampe – ellers kan pointene ikke
+sammenlignes. Derfor styrer appen på **kampe pr. spiller** og regner runderne ud
+bagfra i stedet for omvendt.
 
-Kamplængden vælger I selv, før I går i gang:
+Det kan kun gå op, når antallet af pladser (4 × baner × runder) går lige op i
+antallet af spillere. Appen sørger selv for det:
+
+| Spillere | Baner | Kampe pr. spiller kan være | Fx |
+| --- | --- | --- | --- |
+| 7 | 1 | 4, 8, 12 … | 4 kampe = 7 runder |
+| 8 | 1 | 1, 2, 3 … | 4 kampe = 8 runder |
+| 8 | 2 | 1, 2, 3 … | 4 kampe = 4 runder |
+| 6 | 1 | 2, 4, 6 … | 4 kampe = 6 runder |
+| 5 | 1 | 4, 8 … | 4 kampe = 5 runder |
+
+Plusknappen springer automatisk til næste tal, der går op, og appen viser hele
+vejen igennem – både før start, i stillingen og i programmet – om fordelingen
+rent faktisk er lige. En kamp kan desuden først godkendes, når der står fire
+spillere på banen.
+
+## Kamplængde
 
 | Point pr. kamp | Serve til hver | |
 | --- | --- | --- |
 | **16** | fire serve hver | den lange |
 | **8** | to serve hver | den hurtige |
 
-Andre længder kan sættes i spring af fire, så serverne altid går lige op mellem
-de fire på banen. Det er formentlig ikke de officielle regler. Det er Familien
+Andre længder sættes i spring af fire, så serverne går lige op mellem de fire
+på banen. Det er formentlig ikke de officielle regler. Det er Familien
 Vestergaards.
 
-## Funktioner
+## Sådan spiller I
 
-- **Fremmøde før hvert spil.** Vælg hvem der faktisk er dukket op, og skriv
-  gæster på med navn. Programmet lægges kun til dem, der er der.
-- **Sæt holdet mens kampen kører.** Første kamp starter med tomme pladser – tryk
-  på en plads og vælg spilleren, også midt i en igangværende kamp. Man kan
-  skifte spillere ud undervejs uden at miste stillingen.
-- **Automatisk Americano-program.** Resten af runderne lægges, så snart første
-  runde er godkendt, og den faktiske opstilling tæller med i fordelingen. Så
-  spiller alle med alle, mod alle, og pauserne fordeles ligeligt.
-- **Kommentatorboksen.** Hver eneste point udløser en kommentar, skræddersyet
-  til den spiller der scorede – og til om vedkommende er foran eller bagud.
-- **Live stilling** med podie, pointforskel, sejre og nederlag.
-- **Program-oversigt** over alle runder, baner og resultater.
-- **Mester-skærm** med konfetti, pokal og en sidsteplads ingen slipper for.
-- **Alt gemmes automatisk**, så turneringen overlever at appen lukkes.
-- Flere baner samtidig, justerbart antal runder og point pr. kamp, og
-  gæstespillere kan tilføjes undervejs.
+1. **Fremmøde** – tryk spillerne til og fra, og skriv eventuelle gæster på.
+2. **Kampene** – vælg kamplængde og hvor mange kampe hver skal spille.
+3. **Start turneringen** – første kamp går i gang med det samme.
+4. **Sæt holdet** – tryk på "Vælg" på hver plads. Det kan sagtens gøres, mens
+   I allerede er i gang. "Auto" fylder pladserne ud for jer.
+5. **Tæl point** – tryk på det store point-felt hos det hold der scorer.
+6. **Godkend kampen** når pointmålet er nået, og fortsæt til næste runde.
+7. **Kår mesteren** når alle runder er spillet.
+
+## Læg den på hjemmeskærmen
+
+- **iPhone:** åbn siden i Safari → tryk **Del** → **Føj til hjemmeskærm**.
+- **Android:** åbn siden i Chrome → menuen ⋮ → **Installer app**.
+
+Så åbner den i fuld skærm uden browserlinje og virker uden net i hallen. På
+iPhone betyder det også, at turneringen bliver liggende: Safari rydder normalt
+websites' data efter syv dages inaktivitet, men ikke for apps på hjemmeskærmen.
 
 ## Holdet
 
 | Spiller | Kommentatorboksens holdning |
 | --- | --- |
+| ☀️ **Maria** | Fødselaren og hele familiens solstråle. Og altså rigtig god – det er ikke bare pænt sagt. |
 | 🔵 **Henrik** | Chelsea og Vejle Boldklub. Får klubberne i hovedet både når han fører og når han er bagud. |
-| 🎯 **Majbritt** | Undersælger sig selv i hver eneste sætning. Er teknisk den bedste på banen. |
-| 🌸 **Maria** | Konstant ros, opbakning og god energi. Stillingen betyder intet, Maria betyder alt. |
+| 🎯 **Majbritt** | Ude med skade. Passer børnebørnene i stedet. Jubi. |
 | 😤 **Thomas** | Altid bedst. Dybt irriterende. Et nederlag er en historisk begivenhed. |
-| 🔥 **Therese** | Stort temperament og verdens dårligste taber. Har et uafsluttet søsteropgør med Maria. |
-| 👨‍💻 **Jens** | Bedre til at kode denne app end til at spille padel. Den venstrehånds-noob. |
-| 😇 **Casper** | For god og for sød. Og på uforklarlig vis også god til padel. |
-| 🍀 **Lykke** | Familiens nyeste. Børnene elsker hende, og hun lærer hurtigere, end de andre bryder sig om. |
+| 🔥 **Therese** | Temperament og elendig taber – og i dag skal hun oven i købet være sød ved fødselaren. |
+| 👨‍💻 **Jens** | Har bygget siden. Det er også dét, han er bedst til. Stadig dårlig til padel. |
+| 💼 **Casper** | Arbejder for meget. Tjekker mails mellem dueller. Er alligevel for god til det her. |
+| 🍀 **Lykke** | Potentialet er der stadig. Det bliver bare ved med at være potentiale. |
 
-Therese og Maria spillede tennis mod hinanden i deres ungdom og vandt og tabte
-på skift. Står de over for hinanden på banen, får de deres helt eget
-søsteropgør fra kommentatorboksen.
+Majbritt er slået fra som udgangspunkt, men kan tændes, hvis skaden viser sig at
+være til at leve med – så får hun sine helt egne replikker om at spille skadet.
 
-Tilføjer man andre spillere, får de neutrale kommentarer – familiens replikker
-er reserveret til familien.
+Therese og Maria spillede tennis mod hinanden i deres ungdom. Står de over for
+hinanden, får de deres eget søsteropgør – med den ekstra krølle, at Therese skal
+opføre sig ordentligt på Marias fødselsdag. Og scorer nogen mod fødselaren,
+bemærker familien det.
 
-## Kom i gang
+Gæster får neutrale kommentarer. Familiens replikker er reserveret til familien.
 
-Kræver **Xcode 15 eller nyere** og **iOS 17+**.
+## Kør den lokalt
+
+Der er ingen byggeproces. Alt er almindelig HTML, CSS og JavaScript.
 
 ```bash
-git clone <repo-url>
-cd FamilyPadel
-open FamilyPadel.xcodeproj
+git clone https://github.com/jensbanan/familypadel
+cd familypadel
+python3 -m http.server 8000
 ```
 
-Vælg en simulator (eller din egen iPhone) og tryk ⌘R.
+Åbn så <http://localhost:8000>. Service workeren kræver `http://localhost`
+eller HTTPS – den virker ikke, hvis du åbner `index.html` direkte fra disken.
 
-Skal den på din egen telefon, skal du sætte dit eget udviklerteam:
-**FamilyPadel-target → Signing & Capabilities → Team**. Skift eventuelt
-`PRODUCT_BUNDLE_IDENTIFIER` fra `com.vestergaard.familypadel`, hvis Xcode
-brokker sig over at id'et er taget.
+## Udgivelse på Netlify
 
-## Sådan spiller I
+`netlify.toml` er sat op i forvejen.
 
-1. **Fremmøde** – tryk spillerne til og fra, og skriv eventuelle gæster på.
-2. **Kamplængde** – vælg 16 eller 8 point pr. kamp, og sæt antal baner og runder.
-3. **Start turneringen** – første kamp går i gang med det samme.
-4. **Sæt holdet** – tryk på "Vælg" på hver plads. Det kan sagtens gøres, mens
-   I allerede er i gang. "Auto" fylder pladserne ud for jer.
-5. **Tæl point** – tryk på det store point-felt hos det hold der scorer.
-   Kommentatorboksen tager sig af resten.
-6. **Godkend kampen** når pointmålet er nået, og fortsæt til næste runde.
-7. **Kår mesteren** når alle runder er spillet.
+1. [app.netlify.com](https://app.netlify.com) → **Add new site** →
+   **Import an existing project** → **GitHub** → `jensbanan/familypadel`.
+2. Build command tom, publish directory `.` — Netlify læser det selv.
+3. **Deploy**.
+
+Derefter udløser hvert push til `main` en ny udgivelse.
+
+## Tidligere udgaver
+
+| Gren | Hvad |
+| --- | --- |
+| `main` | Marias fødselsdagsturnering (denne) |
+| `v1.0` | Familien Vestergaard Padel Championship – den oprindelige familieferie-udgave |
+
+Den gamle version ligger urørt på `v1.0` og kan hentes frem med
+`git checkout v1.0`. Vil du have den til at blive liggende på sin egen adresse,
+kan branch deploys slås til for den på Netlify.
 
 ## Projektets opbygning
 
 ```
-FamilyPadel/
-├── FamilyPadelApp.swift        App-indgang
-├── Models/                     Player, PadelMatch, Tournament, Persona
-├── Engine/
-│   ├── AmericanoScheduler.swift  Programlægning med balancerede pauser
-│   └── Banter.swift              Kommentatorboksens replikbank
-├── Store/TournamentStore.swift Al spillogik og lagring
-└── Views/                      SwiftUI-skærme
+index.html                 App-skallen
+assets/app.css             Al styling
+assets/app.js              Spillogik, replikbank og visning
+assets/fonts.css           Selvhostede fonte (virker offline)
+fonts/                     Familjen Grotesk og Karla (variable, OFL)
+icons/                     App-ikoner til hjemmeskærmen
+manifest.webmanifest       Navn, ikon og farver til installation
+sw.js                      Service worker – offline og hurtig start
+netlify.toml               Udgivelsesopsætning
+ios/                       Den oprindelige native SwiftUI-app
 ```
 
-Vil du tilføje flere jokes, ligger de samlet i `Engine/Banter.swift` – én
-funktion pr. familiemedlem. `{n}` bliver erstattet med spillerens fornavn.
+Vil du tilføje flere jokes, ligger de samlet i objektet `B` i `assets/app.js` –
+ét afsnit pr. familiemedlem, opdelt efter situation (`ahead`, `behind`, `won`,
+`lost` og så videre). `{n}` bliver erstattet med spillerens fornavn.

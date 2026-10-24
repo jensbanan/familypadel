@@ -17,3 +17,9 @@ xcuserdata/
 .build/
 .swiftpm/
 Packages/
+
+# Netlify
+.netlify/
+
+# Node
+node_modules/

@@ -2,7 +2,7 @@
    Strategi: stale-while-revalidate – appen åbner øjeblikkeligt fra cachen
    (også uden net i hallen) og opdaterer sig selv i baggrunden. */
 
-const VERSION = 'fvpc-v1';
+const VERSION = 'fvpc-bday-v1';
 const ASSETS = [
   './',
   './index.html',
