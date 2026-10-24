@@ -557,6 +557,38 @@ document.addEventListener('visibilitychange', () => {
   if(document.visibilityState === 'visible' && S && S.phase === 'play' && !S.champ) keepAwake(true);
 });
 
+/* ============ Fødselsdagspynt ============ */
+const BALLOON_COLORS = ['#FF6B6B','#FFC43D','#FF8FB1','#5FD9A4','#7CC7FF','#C8102E'];
+
+function balloons(n, fast, edges){
+  let out = '';
+  for(let i = 0; i < n; i++){
+    const c = BALLOON_COLORS[i % BALLOON_COLORS.length];
+    const w = (edges ? 20 : 24) + Math.round(Math.random() * (edges ? 14 : 20));
+    const h = Math.round(w * 1.25);
+    const dur = (fast ? 9 : 17) + Math.random() * 11;
+    // Langs kanterne, så de ikke lægger sig hen over teksten.
+    const left = edges
+      ? (i % 2 ? 2 + Math.random() * 15 : 83 + Math.random() * 14)
+      : Math.random() * 93;
+    out += `<span class="balloon" style="left:${left.toFixed(1)}%;
+      animation-duration:${dur.toFixed(1)}s;animation-delay:${(-Math.random()*dur).toFixed(1)}s">
+      <span class="bb" style="width:${w}px;height:${h}px;background:${c};color:${c};
+        animation-duration:${(2.6 + Math.random()*2).toFixed(1)}s"><i class="str"></i></span></span>`;
+  }
+  return out;
+}
+
+/* Dannebrog – korset sidder forskudt mod stangen. */
+function dannebrog(w, h){
+  const bar = h * 0.24, cx = w * 0.36;
+  return `<svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" aria-hidden="true">
+    <rect width="${w}" height="${h}" rx="1" fill="#C8102E"/>
+    <rect x="${(cx-bar/2).toFixed(1)}" y="0" width="${bar.toFixed(1)}" height="${h}" fill="#fff"/>
+    <rect x="0" y="${(h/2-bar/2).toFixed(1)}" width="${w}" height="${bar.toFixed(1)}" fill="#fff"/></svg>`;
+}
+const flagRow = (n, w, h) => Array.from({length:n}, () => dannebrog(w, h)).join('');
+
 /* ============ Visning ============ */
 const viewEl = document.getElementById('view');
 const tabsEl = document.getElementById('tabs');
@@ -574,6 +606,11 @@ function viewAttendance(){
   const n = active().length;
   return `
   <div class="bday">
+    <span class="pop l" aria-hidden="true">🎈</span>
+    <span class="pop r" aria-hidden="true">🎈</span>
+    <span class="pop l2" aria-hidden="true">🎈</span>
+    <span class="pop r2" aria-hidden="true">🎈</span>
+    <div class="flags">${flagRow(5, 26, 19)}</div>
     <div class="cake">🎂</div>
     <div class="who">Tillykke, Maria!</div>
     <div class="theme">Hele familiens solstråle</div>
@@ -883,15 +920,17 @@ function resultHTML(){
 function champHTML(){
   const t = standings(); if(!t.length) return '';
   const w = t[0], l = t[t.length - 1];
-  const bits = Array.from({length:26}, (_, i) => {
-    const e = ['🎾','🎉','🏆','✨','🥇','🎊','🎂','🎈'][i % 8];
+  const bits = Array.from({length:34}, (_, i) => {
+    const e = ['🎈','🎉','🎂','🎈','🏆','🎊','🎈','✨','🥳','🎈','🥇','🎾'][i % 12];
     return `<i style="left:${Math.round(Math.random()*94)}%;font-size:${(14+Math.random()*14)|0}px;
       animation-duration:${(3.2+Math.random()*3).toFixed(1)}s;animation-delay:${(Math.random()*3).toFixed(1)}s">${e}</i>`;
   }).join('');
   return `<div class="champ-wrap" role="dialog" aria-modal="true" aria-label="Mester">
-    <div class="confetti" aria-hidden="true">${bits}</div>
+    <div class="confetti" aria-hidden="true">${balloons(12, true)}${bits}</div>
+    <div class="garland" aria-hidden="true"></div>
     <div class="champ">
       <div class="cup">🏆</div><div class="lab">MESTER</div>
+      <div class="flagrow" aria-hidden="true">${flagRow(5, 30, 22)}</div>
       <div style="font-size:2.6rem;margin-top:8px">${pl(w.id).emoji}</div>
       <div class="nm">${nm(w.id)}</div>
       <div class="sc">${w.pts} point · ${w.w} sejre · ${w.pl} kampe</div>
@@ -1018,6 +1057,9 @@ if('serviceWorker' in navigator && !window.__NO_SW__){
 }
 
 /* ============ Start ============ */
+const partyBg = document.getElementById('partyBg');
+if(partyBg) partyBg.innerHTML = balloons(8, false, true);
+
 if(!load()) fresh();
 if(S.phase === 'play' && !S.champ) keepAwake(true);
 render();

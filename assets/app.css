@@ -44,7 +44,7 @@ button{cursor:pointer}
 h1,h2,h3,h4{font-family:var(--display);margin:0;line-height:1.15;text-wrap:balance}
 
 /* ---------- skal ---------- */
-#app{display:flex;flex-direction:column;height:100dvh;min-height:100dvh;padding-top:env(safe-area-inset-top)}
+#app{display:flex;flex-direction:column;height:100dvh;min-height:100dvh;padding-top:env(safe-area-inset-top);position:relative;z-index:1}
 .topbar{
   flex:none;display:flex;flex-direction:column;align-items:center;gap:2px;
   padding:11px 16px;border-bottom:1px solid var(--hair);
@@ -293,4 +293,55 @@ table.stand .pts{font-family:var(--display);font-weight:700;font-size:1.05rem;wi
 
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
+}
+
+
+/* ---------- fødselsdagspynt ---------- */
+
+/* Flagguirlande – hænger under toplinjen på alle skærme. */
+.garland{
+  flex:none;height:38px;pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Cpath d='M0 4 Q60 26 120 4' fill='none' stroke='%236B5444' stroke-opacity='.55' stroke-width='1.5'/%3E%3Cg transform='translate(21.6 10.5) rotate(13.2)'%3E%3Cg transform='translate(-9.5 0.5)'%3E%3Crect width='19.0' height='13.5' fill='%23C8102E'/%3E%3Crect x='5.2' y='0' width='3.2' height='13.5' fill='%23fff'/%3E%3Crect x='0' y='5.1' width='19.0' height='3.2' fill='%23fff'/%3E%3C/g%3E%3C/g%3E%3Cg transform='translate(60.0 15.0) rotate(0.0)'%3E%3Cg transform='translate(-9.5 0.5)'%3E%3Crect width='19.0' height='13.5' fill='%23C8102E'/%3E%3Crect x='5.2' y='0' width='3.2' height='13.5' fill='%23fff'/%3E%3Crect x='0' y='5.1' width='19.0' height='3.2' fill='%23fff'/%3E%3C/g%3E%3C/g%3E%3Cg transform='translate(98.4 10.5) rotate(-13.2)'%3E%3Cg transform='translate(-9.5 0.5)'%3E%3Crect width='19.0' height='13.5' fill='%23C8102E'/%3E%3Crect x='5.2' y='0' width='3.2' height='13.5' fill='%23fff'/%3E%3Crect x='0' y='5.1' width='19.0' height='3.2' fill='%23fff'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat-x center top, rgba(255,248,237,.94);
+  background-size:120px 38px, auto;
+  backdrop-filter:blur(12px);
+}
+
+/* Balloner der driver op i baggrunden. */
+#partyBg{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.balloon{position:absolute;bottom:-90px;will-change:transform;animation:drift linear infinite}
+.balloon .bb{position:relative;display:block;border-radius:50% 50% 48% 48% / 58% 58% 42% 42%;animation:sway ease-in-out infinite alternate}
+.balloon .bb::before{
+  content:'';position:absolute;left:50%;top:100%;transform:translateX(-50%);
+  border-left:4px solid transparent;border-right:4px solid transparent;
+  border-top:6px solid currentColor;
+}
+.balloon .bb::after{
+  content:'';position:absolute;left:18%;top:14%;width:22%;height:30%;
+  border-radius:50%;background:rgba(255,255,255,.45);
+}
+.balloon .str{position:absolute;left:50%;top:calc(100% + 5px);width:1px;height:44px;background:rgba(59,42,31,.22)}
+/* Baggrundsballoner skal anes, ikke læses – teksten har forrang. */
+#partyBg .balloon{opacity:.26;filter:blur(1.2px)}
+.champ-wrap .balloon{opacity:.45}
+@keyframes drift{from{transform:translateY(0)}to{transform:translateY(-118vh)}}
+@keyframes sway{from{transform:translateX(-7px) rotate(-4deg)}to{transform:translateX(7px) rotate(4deg)}}
+
+/* Pynt inde i fødselsdagsbanneret. */
+.bday{padding-top:10px}
+.bday .flags{display:flex;justify-content:center;gap:7px;margin-bottom:6px}
+.bday .flags svg{width:26px;height:19px;filter:drop-shadow(0 1px 2px rgba(59,42,31,.25))}
+.bday .pop{position:absolute;font-size:1.3rem;opacity:.9}
+.bday .pop.l{left:12px;top:16px;transform:rotate(-12deg)}
+.bday .pop.r{right:12px;top:16px;transform:rotate(12deg)}
+.bday .pop.l2{left:22px;bottom:12px;transform:rotate(8deg);font-size:1.05rem}
+.bday .pop.r2{right:22px;bottom:12px;transform:rotate(-8deg);font-size:1.05rem}
+
+/* Mesterskærmen får hele pakken. */
+.champ-wrap .garland{position:absolute;top:env(safe-area-inset-top);left:0;right:0;height:38px;z-index:3;
+  background-color:transparent;backdrop-filter:none}
+.champ .flagrow{display:flex;justify-content:center;gap:9px;margin:4px 0 2px}
+.champ .flagrow svg{width:30px;height:22px;filter:drop-shadow(0 1px 3px rgba(59,42,31,.3))}
+
+@media (prefers-reduced-motion:reduce){
+  #partyBg{display:none}
 }
